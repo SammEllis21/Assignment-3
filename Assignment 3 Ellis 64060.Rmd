@@ -1,0 +1,133 @@
+---
+title: "Assignment 3 BA64060"
+author: "Samantha Ellis"
+date: "2023-10-12"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+A.
+
+
+
+P1 <- ftable( Train$CreditCard, Train$`Personal Loan` , Train$Online, dnn = c("CreditCard", "Personal Loan", "Online"))
+                         Online    0    1
+CreditCard Personal Loan                 
+0          0                     765 1131
+           1                      73  132
+1          0                     332  478
+           1                      37   52
+
+
+
+B. 
+
+
+The probability of a client who uses online services and has a credit card, accepting a personal loan is 1.73%. 
+
+prop.table(P1)
+                         Online          0          1
+CreditCard Personal Loan                             
+0          0                    0.25500000 0.37700000
+           1                    0.02433333 0.04400000
+1          0                    0.11066667 0.15933333
+           1                    0.01233333 0.01733333
+
+
+
+
+
+
+
+C. 
+
+
+table(Train$`Personal Loan`, Train$Online, dnn = c("Personal Loan", "Online"))
+             Online
+Personal Loan    0    1
+            0 1097 1609
+            1  110  184
+table(Train$`Personal Loan`, Train$CreditCard, dnn = c("Personal Loan", "Credit Card"))
+             Credit Card
+Personal Loan    0    1
+            0 1896  810
+            1  205   89
+            
+            
+            
+            
+            
+D. i. 
+
+Pcc_Loan <- 89/294
+> Pcc_Loan
+[1] 0.3027211
+##The probability of someone having a credit card given they have a Personal Loan is 30.27%
+
+D. ii.
+
+POnline_Loan <- 184/(184+110)
+> POnline_Loan
+[1] 0.6258503
+##The probability of someone using online banking given they have a personal loan is 62.59%
+
+D. iii.
+
+ PLoan <- (294/3000)
+> PLoan
+[1] 0.098
+##The probability of someone getting a personal loan is 9.8%.
+
+D. iv.
+
+ PCC_Loan0 <- (810/(1896+810))
+> PCC_Loan0
+[1] 0.2993348
+##The probability of someone having a credit card given they do not have a Personal Loan is 29.9%
+
+D. v. 
+
+ POnline_Loan0 <- 1609/(1609+1097)
+> POnline_Loan0
+[1] 0.5946046
+##The probability of someone using online banking given they do not have a personal loan is 59.46%
+
+D. vi. 
+
+ PLoan_CC_Online <- (.3027*.6259*.098)/((.3027*.6259*.098)+(.299*.5946*.902))
+> PLoan_CC_Online
+[1] 0.1037675
+##The probability of someone not getting a personal loan is 90.2%.
+
+
+
+E. 
+
+  PLoan_CC_Online <- (.3027*.6259*.098)/((.3027*.6259*.098)+(.299*.5946*.902))
+> PLoan_CC_Online
+[1] 0.1037675
+##The probability that a person accepts a personal loan given they have a bank credit card and are an active online banking user is 1.04%
+
+
+
+F.
+
+The Naive Bayes Method presents a slightly lower probability than what the pivot table from part B gave (at 1.73%).The pivot table value is the more accurate prediction, because it does not make the assumption that all the variables are independent.
+
+
+
+G. 
+
+The entries that correspond with P(Loan=1 | CC=1, Online=1), can be any that are in line with CreditCard=1 and Online=1. This value is much higher than the value from E.
+
+nb_model <- naiveBayes(CreditCard~ Online, data = Train)
+
+Predict1 <- predict(nb_model, Test, type = "raw")
+Predict1
+
+
